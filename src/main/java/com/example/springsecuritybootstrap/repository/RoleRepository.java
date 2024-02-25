@@ -2,15 +2,16 @@ package com.example.springsecuritybootstrap.repository;
 
 
 import com.example.springsecuritybootstrap.entity.Role;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
+import java.util.Set;
 
-public interface RoleRepository extends JpaRepository<Role, Long> {
-    @Query("select r from Role r where lower(r.role) like :role")
-    Optional<Role> findRoleByRole(@Param("role") String role);
+public interface RoleRepository {
+    Set<Role> getAll();
+
+    Optional<Role> findRoleByRoleName(String roleName);
+
+    void saveRole(Role role);
 
 
 }

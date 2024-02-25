@@ -1,6 +1,7 @@
 package com.example.springsecuritybootstrap.contoller;
 
 
+import com.example.springsecuritybootstrap.entity.Role;
 import com.example.springsecuritybootstrap.entity.User;
 import com.example.springsecuritybootstrap.service.RoleService;
 import com.example.springsecuritybootstrap.service.UserService;
@@ -10,11 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
+    private final String ADMIN_PAGE = "redirect:/admin";
 
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
@@ -25,7 +29,7 @@ public class AdminController {
     @GetMapping("/")
     public String getHomePage() {
 
-        return "index";
+        return "login";
     }
 
     @GetMapping("/admin")
@@ -38,21 +42,30 @@ public class AdminController {
 
     @PostMapping("/admin/create")
     public String saveUser(@ModelAttribute("user") User user) {
-        System.out.println(user.getFirstName());
+        setRoleBeforeSaveOrUpdate(user);
         userService.save(user);
-        return "redirect:/admin";
+        return ADMIN_PAGE;
     }
 
     @PostMapping("admin/delete/{id}")
     public String deleteUser(@PathVariable("id") Long userId) {
         userService.delete(userId);
-        return "redirect:/admin";
+        return ADMIN_PAGE;
     }
 
     @PostMapping("admin/update/{id}")
     public String update(@ModelAttribute("user") User user) {
-        userService.save(user);
-        return "redirect:/admin";
+        setRoleBeforeSaveOrUpdate(user);
+        userService.update(user);
+        return ADMIN_PAGE;
+    }
+
+    private void setRoleBeforeSaveOrUpdate(User user) {
+        Set<Role> roles = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            roles.add(roleService.getByRoleName(role.getRole()));
+        }
+        user.setRoles(roles);
     }
 
 }

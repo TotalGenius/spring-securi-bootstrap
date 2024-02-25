@@ -1,22 +1,18 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-
     <title>Hello, world!</title>
 </head>
-
 <body>
 <header>
     <!-- Header nav bar start-->
@@ -24,13 +20,14 @@
         <div class="container-fluid">
             <h4 th:text="${authenticatedUser.getUsername()} + '  with Roles:  ' +  ${authenticatedUser.getRolesToString()}"
                 class="navbar-brand"></h4>
-            <a class="nav justify-content-end" href="/logout">Logout</a>
+            <form class="nav justify-content-end" th:action="@{/logout}" th:method="POST">
+                <input type="submit" th:value="Logout">
+            </form>
         </div>
         </div>
     </nav>
     <!-- Header nav bar end-->
 </header>
-
 <div class="d-flex align-items-start">
     <!-- side bar, admin panel container start -->
     <!-- side bar -->
@@ -43,11 +40,8 @@
             <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill"
                href="#user-info" role="tab"
                aria-controls="v-pills-home" aria-selected="true">User</a>
-
-
         </div>
     </div>
-
     <div class="col-11 bg-light">
         <div class="tab-content border rounded" id="myTabContent">
             <!-- User info -->
@@ -88,8 +82,6 @@
         </div>
     </div>
 </div>
-
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -102,5 +94,4 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

@@ -24,7 +24,9 @@
         <div class="container-fluid">
             <h4 th:text="${authenticatedUser.getUsername()} + '  with Roles:  ' +  ${authenticatedUser.getRolesToString()}"
                 class="navbar-brand"></h4>
-            <a class="nav justify-content-end" href="/logout">Logout</a>
+            <form class="nav justify-content-end" th:action="@{/logout}" th:method="POST">
+                <input type="submit" th:value="Logout">
+            </form>
         </div>
         </div>
     </nav>
@@ -126,40 +128,50 @@
                                                            for="update-user-first-name">First name</label>
                                                     <input type="text" class="form-control"
                                                            name="firstName" id="update-user-first-name"
-                                                           th:value="*{firstName}"/>
+                                                           th:value="*{firstName}"
+                                                           minlength="2" maxlength="32" required/>
                                                 </div>
                                                 <div class="form-group text-center">
                                                     <label class="col-form-label font-weight-bold"
                                                            for="update-user-last-name">Last name</label>
                                                     <input type="text" class="form-control"
                                                            name="lastName" id="update-user-last-name"
-                                                           th:value="*{lastName}"/>
+                                                           th:value="*{lastName}"
+                                                    minlength="2" maxlength="32" required/>
                                                 </div>
                                                 <div class="form-group text-center">
                                                     <label class="col-form-label font-weight-bold"
                                                            for="update-user-age">Age</label>
-                                                    <input type="text" class="form-control"
-                                                           name="age" id="update-user-age" th:value="*{age}"/>
+                                                    <input type="number" class="form-control"
+                                                           name="age" id="update-user-age" th:value="*{age}"
+                                                    min="1" max="100" required/>
                                                 </div>
                                                 <div class="form-group text-center">
                                                     <label class="col-form-label font-weight-bold"
                                                            for="update-user-email">Email</label>
-                                                    <input type="text" class="form-control"
-                                                           name="email" id="update-user-email" th:value="*{email}"/>
+                                                    <input type="email" class="form-control"
+                                                           name="email" id="update-user-email" th:value="*{email}"
+                                                    minlength="2" maxlength="50" required/>
+                                                    <div class="invalid-feedback">
+                                                        Incorrect email
+                                                    </div>
                                                 </div>
                                                 <div class="form-group text-center">
                                                     <label class="col-form-label font-weight-bold"
                                                            for="update-user-password">Password</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="password" class="form-control"
                                                            name="password" id="update-user-password"
-                                                           th:value="*{password}"/>
+                                                           th:value="*{password}" required/>
+                                                    <div class="invalid-feedback">
+                                                        Password should contain minimum 6 symbols
+                                                    </div>
                                                 </div>
                                                 <div class="form-group text-center">
                                                     <label class="col-form-label font-weight-bold"
                                                            for="update-user-roles">Roles</label>
                                                     <select class="form-control" name="roles" multiple size="2">
                                                         <option id="update-user-roles" th:each="role : ${allRoles}"
-                                                                th:value="${role.id}"
+                                                                th:value="${role.role}"
                                                                 th:text="${role.role.substring(5).toString()}">
                                                         </option>
                                                     </select>
@@ -270,34 +282,40 @@
                                     <label class="col-form-label font-weight-bold" for="new-user-first-name">First
                                         name</label>
                                     <input type="text" class="form-control" id="new-user-first-name"
-                                           name="firstName"/>
+                                           name="firstName" minlength="2" maxlength="32" required/>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-form-label font-weight-bold" for="new-user-last-name">Last
                                         name</label>
                                     <input type="text" class="form-control" id="new-user-last-name"
-                                           name="lastName"/>
+                                           name="lastName" minlength="2" maxlength="32" required/>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-form-label font-weight-bold" for="new-user-age">Age</label>
-                                    <input type="text" class="form-control" id="new-user-age"
-                                           name="age"/>
+                                    <input type="number" class="form-control" id="new-user-age"
+                                           name="age" min="1" max="100" required/>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-form-label font-weight-bold"
                                            for="new-user-email">Email</label>
-                                    <input type="text" class="form-control" id="new-user-email" name="email"/>
+                                    <input type="email" class="form-control" id="new-user-email" name="email" required/>
+                                    <div class="invalid-feedback">
+                                        Incorrect email
+                                    </div>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-form-label font-weight-bold"
                                            for="new-user-password">Password</label>
-                                    <input type="text" class="form-control" id="new-user-password" name="password"/>
+                                    <input type="password" class="form-control" id="new-user-password" name="password" required/>
+                                    <div class="invalid-feedback">
+                                        Password should contain minimum 6 symbols
+                                    </div>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-form-center font-weight-bold"
                                            for="new-user-roles">Role</label>
-                                    <select class="form-control" id="new-user-roles" name="roles" multiple size="2">
-                                        <option th:each="role : ${allRoles}" th:value="${role.id}"
+                                    <select class="form-control" id="new-user-roles" name="roles" multiple size="2" required>
+                                        <option th:each="role : ${allRoles}" th:value="${role}"
                                                 th:text="${role.role.substring(5).toString()}"></option>
                                     </select>
                                 </div>

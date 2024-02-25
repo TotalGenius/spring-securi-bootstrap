@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -25,37 +25,44 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public Set<User> getAll() {
+        return userRepository.getAll();
     }
 
     @Override
     public User get(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.getUserById(id);
+    }
+
+    @Override
+    @Transactional
+    public void update(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.updateUser(user);
     }
 
     @Override
     @Transactional
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userRepository.saveUser(user);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        userRepository.deleteUserById(id);
 
     }
 
     @Override
     public Optional<User> getByUserName(String userName) {
-        return userRepository.findUserByEmail(userName);
+        return userRepository.getUserByUsername(userName);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findUserByEmail(username);
+        Optional<User> optionalUser = userRepository.getUserByUsername(username);
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("user is not found");
         }

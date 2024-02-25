@@ -2,6 +2,7 @@ package com.example.springsecuritybootstrap.service.impl;
 
 
 import com.example.springsecuritybootstrap.entity.Role;
+
 import com.example.springsecuritybootstrap.repository.RoleRepository;
 import com.example.springsecuritybootstrap.service.RoleService;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,16 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<Role> getAll() {
-        return new HashSet<>(roleRepository.findAll());
+        return new HashSet<>(roleRepository.getAll());
     }
 
     @Override
     public Role getByRoleName(String roleName) {
-        return roleRepository.findRoleByRole(roleName).get();
+        return roleRepository.findRoleByRoleName(roleName).get();
     }
 
     @Override
     public void addRole(Role role) {
-        roleRepository.save(role);
+        roleRepository.saveRole(role);
     }
 }

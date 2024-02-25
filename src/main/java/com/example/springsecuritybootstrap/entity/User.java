@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,20 +20,31 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "first_name")
+    @NotBlank(message = "First name can't be empty")
+    @Size(min = 2, max = 32, message = "First name length should be 2-32 symbols")
     private String firstName;
     @Column(name = "last_name")
+    @NotBlank(message = "Last name can't be empty")
+    @Size(min = 2, max = 32, message = "Last name length should be 2-32 symbols")
     private String lastName;
 
+    @NotNull(message = "field can't be empty")
+    @Min(value = 1, message = "")
+    @Max(value = 32, message = "")
     private int age;
 
+    @NotBlank
+    @Size(min = 2, max = 50, message = "")
     private String email;
 
+    @NotBlank()
     private String password;
-    @Fetch(FetchMode.JOIN)
+
     @ManyToMany()
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Fetch(FetchMode.JOIN)
     private Set<Role> roles;
 
     public User() {
@@ -97,6 +109,7 @@ public class User implements UserDetails {
     public String getRolesToString() {
         StringBuilder rolesToStr = new StringBuilder("");
         for (Role role : this.roles) {
+            System.out.println(role.getRole());
             rolesToStr.append(role.getRole().substring(5) + " ");
         }
         return rolesToStr.toString();
@@ -121,7 +134,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 
     @Override

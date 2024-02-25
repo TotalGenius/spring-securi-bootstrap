@@ -1,0 +1,6 @@
+INSERT INTO users (first_name, last_name, age, email, password) VALUES ('admin', 'admin', 23, 'admin@gmail.com', '$2a$10$0ylMBK2loN2on99Is9SO.ueb7SgaZWDsXe8ZUacyVBYS4MFrwN2ha')
+INSERT INTO users (first_name, last_name, age, email, password) VALUES ('user', 'user', 22, 'user@gmail.com', '$2a$10$Je/UDlgy4EvvjxC1hOC63ei9MYYSDnCnjvEWtTs3SmpJnGTN4o71.')
+INSERT INTO roles (role) VALUES ('ROLE_ADMIN')
+INSERT INTO roles (role) VALUES ('ROLE_USER')
+INSERT INTO user_role (user_id, role_id) VALUES (1,1)
+INSERT INTO user_role (user_id, role_id) VALUES (2,2)
